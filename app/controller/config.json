@@ -1,0 +1,18 @@
+{
+			"appid":"wx06a885d249615565",
+			"url":{
+				"url":"http://h5.1357g.com/g/gm.app/",
+				"addTickets":"/addTickets",
+				"selectPlayer":"/user",
+				"mail":"/mail"
+			},
+			"list":{
+				"id1":{"name":"card1", "money":1,"num":450},
+				"id2":{"name":"card2", "money":1,"num":750},
+				"id3":{"name":"card3", "money":1,"num":1500}
+			},
+			"key":"tyjhhgfdsaasd123gdf156s1fdsfsd",
+			"seller":1,
+			"extension":2,
+			"all":3
+}

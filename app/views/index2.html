@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<link rel="stylesheet" href="./lib/pure/pure-min.css">
+<script src="./lib/jquery.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="./lib/vue.min.js"></script>
+<script type="text/javascript" src="./config.js?q4"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<link rel="stylesheet" href="./css/index.css?q4">
+<style type="text/css">
+.t_bg1{background-image:url(./image/成品3.jpg);font-size: 30px;color: #fff}
+</style>
+<body>
+
+
+<div style="width: 100%;marker-end: 100px">
+	<div class="pure-g">
+		<div class="pure-u-1-1 t_bg1" id="head">
+			<div class="pure-g">
+			    <div class="pure-u-1-3"><p id="head_name">玩家充卡</p></div>
+			    <div class="pure-u-1-3"><p></p></div>
+			    <div class="pure-u-1-3"><p>剩余房卡：{{cardNum}}</p></div>
+				
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<div id="player_card" class="headk" v-show="show">
+		<div class="pure-g">
+				<div class="pure-u-1-5"><p>所在地</p></div>
+				<div class="pure-u-1-5"><p>{{userinfo.place}}</p></div>
+				<div class="pure-u-1-5"><p>玩家id</p></div>
+				<div class="pure-u-1-5"><p><input class="friendId" type="text" v-model="userinfo.playerId" ></p></div>
+				<div @click="select()" class="pure-u-1-5"><p><button>查询</button></p></div>
+		</div>
+
+		<table class="pure-table">
+			<tr class="tr1">
+					<td>玩家id</td>
+					<td>玩家昵称</td>
+					<td>剩余卡数</td>
+					<td>操作</td>
+			</tr>
+			<tr class="tr2">
+				<td >{{userinfo.playerId}}</td>
+				<td>{{userinfo.name}}</td>
+				<td>{{userinfo.cardNum}}</td>
+				<td @click="Recharge()">充值</td>
+			</tr>
+		</table>
+	</div>
+
+
+	<div id="info" class="headk" v-show="show">
+		<div class="pure-g">
+				<div class="pure-u-1-1"><p>开放时间：<input type="date" v-model="startTime"></p></div>
+		</div>
+		<div class="pure-g">
+				<div class="pure-u-1-1"><p>结束时间：<input type="date" v-model="endTime" ><button @click="select()">查询</button></p></div>
+		</div>
+
+
+		<table class="pure-table" v-if="reward">
+			<tr class="tr1">
+					<td>购卡数</td>
+					<td>获取数量（返卡+活动增卡）</td>
+					<td>消费时间</td>
+			</tr>
+			<tr v-for="num in row" class="tr1">
+					<td>{{data[row-1+index].buyNum}}</td>
+					<td>{{data[row-1+index].Num}}</td>
+					<td>{{data[row-1+index].buyTime}}</td>
+			</tr>
+
+
+
+		</table>
+
+		<table class="pure-table" v-else>
+			<tr class="tr1">
+					<td>购卡时间</td>
+					<td>商家ID</td>
+					<td>昵称</td>
+					<td>地区</td>
+					<td>充卡数量</td>
+			</tr>
+			<tr v-for="row in row" class="tr1">
+					<td>{{data[row-1+index].buyTime}}</td>
+					<td>{{data[row-1+index].userId}}</td>
+					<td>{{data[row-1+index].name}}</td>
+					<td>{{data[row-1+index].place}}</td>
+					<td>{{data[row-1+index].buyNum}}</td>
+		</table>
+				<p>记录数{{count}} 	<span>第{{paged}}页</span></p>
+				<p>显示        
+						<select @click="pagez()" v-model="row" id="state">
+				            <option  v-for="n in row_be" v-bind:value="n">{{n}}</option>
+				        </select>条
+				</p>
+
+
+				<p>
+					<button @click="pagec('reduce')">上一页</button>
+					<a href="#" @click="pagec(page)" style="padding: 3px" v-for="page in pagex">{{page}}</a>
+					<button @click="pagec('add')">下一页</button>
+				</p>
+			
+
+	</div>
+
+
+	<div id="extension" class="headk" v-show="show">
+		<div>推广总金额：{{zMoney_t}}</div>
+		<div>推广总返利：{{zMoney_b}}</div>
+		<div><button>申请提现</button></div>
+
+		<table class="pure-table">
+			<tr class="tr1">
+					<td>昵称</td>
+					<td>充值金额</td>
+					<td>购卡折扣</td>
+					<td>充值返利</td>
+			</tr>
+			<tr v-for="info in data">
+					<td>{{info.name}}</td>
+					<td>{{info.tMoney}}</td>
+					<td>{{info.discount}}</td>
+					<td>{{info.bMoney}}</td>
+			</tr>
+
+
+
+		</table>
+		<div id="list"></div>
+
+	</div>
+
+	<div id="userinfo" class="headk"  v-show="show">
+		<div>用户昵称：{{userinfo.name}}</div>
+		<div>推广ID：{{userinfo._id}}</div>
+		<div>手机号：{{userinfo.phone}}</div>
+		<div>微信号：{{userinfo.openid}}</div>
+		<div>加入时间：{{userinfo.createTime}}</div>
+	</div>
+
+	<div id="player_card1" class="headk" v-show="show">
+		<div>玩家ID</div>
+		<div><input  type="text" name="" v-model="data.playerId" disabled></div>
+		<div>当前可用数量</div>
+		<div><input  type="text" name="" v-model="data.cardNum" disabled></div>
+		<div>充值数量</div>
+		<div><input  type="text" v-model="data.Rechange" name=""></div>
+		<p>注意:xx</p>
+		<div>
+			<button @click="upRechange()" id="recharge_sure">充值</button>
+			<button >取消</button>
+		</div>
+	</div>
+
+	<div id="buy_card" class="headk" v-show="show">
+		<div>商品购买</div>
+		<table class=" buy_card">
+			<tr>
+				<td  @click="list(1)" :class="{'border':data.list==1}" >540元<br>获得300+150房卡</td>
+				<td  @click="list(2)" :class="{'border':data.list==2}">900元<br>获得500+250房卡</td>
+				<td  @click="list(3)" :class="{'border':data.list==3}">1800元<br>获得1000+500房卡</td>
+			</tr>
+
+		</table>
+		<div>支付方式<br/>
+			<p style="background-image:url(./image/成2品.jpg);  background-repeat: no-repeat;padding-left: 60px;font-size: 35px">微信支付</p> 
+		</div>
+		<div>总计获得:{{data.num}}张<br/>
+			 应付金额:{{data.money}}元
+		</div>
+		<div><button @click="buy()">立即购买</button></div>
+	</div>
+
+
+
+
+</div>
+
+
+<div id="tail">
+	<table  class="table2">
+		<tr>
+				<td ><img @click="show(1)" src="./image/成品dasdadads.jpg" width="200px" height="100px"></td>
+				<td ><img @click="show(2)" src="./image/成品saddsad.jpg" width="200px" height="100px"></td>
+				<td ><img @click="show(3)" src="./image/sadsadad.jpg" width="200px" height="100px"></td>
+		</tr>
+		<tr>
+				<td ><img @click="show(4)" src="./image/成品333.jpg" width="200px" height="100px"></td>
+				<td ><img @click="show(5)" src="./image/成品1111.jpg" width="200px" height="100px"></td>
+				<td ><img @click="show(6)" src="./image/成品adsada.jpg" width="200px" height="100px"></td>
+		</tr>
+	</table>
+</div>
+</body>
+
+</html>
+
+<script type="text/javascript" src="./js/index.js?q215"></script> 

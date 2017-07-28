@@ -1,0 +1,40 @@
+{
+  "name": "iot-cloud",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "co-wechat-parser": "^0.1.6",
+    "jr-qrcode": "^1.0.7",
+    "jrpc-client": "0.0.6",
+    "koa": "^1.2.4",
+    "koa-body": "^1.5.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-jwt": "^1.2.0",
+    "koa-mysql": "^1.0.3",
+    "koa-request": "^1.0.0",
+    "koa-router": "^5.4.0",
+    "koa-wechat-pay": "^0.2.5",
+    "koa-xml-body": "^1.1.0",
+    "localIP": "0.0.2",
+    "md5": "^2.2.1",
+    "moment": "^2.16.0",
+    "mongoose": "^4.6.0",
+    "mqtt": "^2.0.1",
+    "mysql": "^2.13.0",
+    "qrcode": "^0.8.1",
+    "qrcode-js": "0.0.2",
+    "qrcode-npm": "0.0.3",
+    "webpack": "^2.4.1",
+    "wechat-crypto": "0.0.2",
+    "wechat-parser": "^1.0.2",
+    "wechat-pay": "^0.2.4",
+    "xml2js": "^0.4.17",
+    "yargs": "^7.1.0"
+  }
+}
