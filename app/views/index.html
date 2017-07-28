@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>商家后台管理</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- Favicon -->
+    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Fonts from Font Awsome -->
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <!-- CSS Animate -->
+    <link rel="stylesheet" href="assets/css/animate.css?11">
+    <!-- Custom styles for this theme -->
+    <link rel="stylesheet" href="assets/css/main.css">
+
+
+    <script type="text/javascript" src="./lib/vue.min.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <!-- Fonts -->
+    <!-- <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900,300italic,400italic,600italic,700italic,900italic' rel='stylesheet' type='text/css'>
+   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'> -->
+    <!-- Feature detection -->
+    <script src="assets/js/modernizr-2.6.2.min.js"></script>
+    <script src="./lib/moment.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<style type="text/css">
+[v-cloak] { display: none }
+</style>
+<body >
+    <section id="container">
+        <header id="header" style="height: 50px" v-cloak>
+            <!--logo start-->
+
+            <!--logo end-->
+            <div class="toggle-navigation toggle-left" >
+                <button type="button" class="btn btn-default" id="toggle-left" data-toggle="tooltip" data-placement="right" title="列表">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+
+            <div class="user-nav">
+                <ul>  
+                    <li class="dropdown" id="cardNum">
+                    <span>剩余房卡：{{cardNum}}</span>
+
+                    </li>
+
+                    <li>
+                        <div class="toggle-navigation toggle-right" id="headUrl">
+                            <button type="button" class="btn btn-default"   :style="{backgroundImage: 'url(' + headUrl + ')'}" style="background-size: 35px 35px" id="toggle-right" data-toggle="tooltip" title="个人信息"> 
+                            </button>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </header>
+        <!--sidebar start-->
+        <aside class="sidebar" id="sidebar" v-cloak>
+
+            <div id="leftside-navigation" class="nano" style="cursor:pointer">
+                <ul class="nano-content">
+                    <li class="sub-menu">
+
+                    </li>
+                    <li class="sub-menu" :class="{'active':index==be}" v-for="(title,index) in head">
+                      <a ><i class="fa"  :class="{ 'fa-cogs': index==0, 'fa-table': index==1 ,'fa-tasks':index==2,'fa-envelope':index==3}"></i><span>{{title.title}}</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                        <ul>
+                            <li @click="change_page(title.title,child)" v-for="child in head[index].child"><a>{{child.title}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </aside>
+
+        <!--sidebar end-->
+        <!--main content start-->
+        <section class="main-content-wrapper" >
+            <section id="main-content">
+                <div class="row" id="head" v-cloak> 
+                    <div class="col-md-12">
+                        <!--breadcrumbs start -->
+                        <ul class="breadcrumb">
+                            <li @click="showTitle()">{{title.father}}</li>
+                            <li class="active">{{title.child}}</li>
+                        </ul>
+                        <!--breadcrumbs end -->
+                        <h1 class="h1">{{title.child}}</h1>
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+
+    <div id="player_card" v-if="show" style="height: 1200px" v-cloak>
+            <section id="main-content">
+
+                <!--  -->       <div class="panel panel-default">
+                                     <div class="panel-body">
+<!--                                 <div class="form-group">
+                                        <label class="col-sm-3 control-label">所在地：</label>
+                                        <div class="col-sm-6">
+                                        </div>
+                                    </div> -->
+               
+                                        <div class="col-sm-6">
+                                            <input type="number" class="form-control" name="input1" id="input1" required="" placeholder="玩家id" v-model="playerId">
+                                            <br>
+                                            <button type="button" class="btn btn-primary btn-trans" @click="select_player()">查询</button>
+                                        </div>
+
+                                     </div>
+                                </div>
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">查询玩家</h3>
+                                <div class="actions pull-right">
+                                    <i class="fa fa-chevron-down"></i>
+                                    <i class="fa fa-times"></i>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>玩家id</th>
+                                            <th>玩家昵称</th>
+<!--                                             <th>剩余卡数</th> -->
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>0</td>
+                                            <td>{{player.playerId}}</td>
+                                            <td>{{player.name}}</td>
+<!--                                             <td>{{player.cardNum}}</td> -->
+                                            <td style="cursor: pointer;" @click="recharge(player.playerId,player.cardNum,player.name)">充值</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">充值历史记录</h3>
+                                <div class="actions pull-right">
+                                    <i class="fa fa-chevron-down"></i>
+                                    <i class="fa fa-times"></i>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>玩家id</th>
+                                            <th>玩家昵称</th>
+                                            <th>充值卡数</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(row,index1) in row">
+                                            <td>{{index1}}</td>
+                                            <td>{{data[row-1+index].playerId}}</td>
+                                            <td>{{data[row-1+index].name}}</td>
+                                            <td>{{data[row-1+index].cardNum}}</td>
+                                            <td style="cursor: pointer;" @click="recharge(data[row-1+index].playerId,data[row-1+index].cardNum,data[row-1+index].name)">充值</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <h5>记录数{{count}}</h5>
+                                <h5>页数{{page_d}}</h5>   
+
+
+                                     <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                            显示{{row}}条
+                                            <span class="caret"></span>
+                                        </button>
+
+
+                                        <ul class="dropdown-menu" @click="pagez()">
+                                            <li v-for="n in rows" @click="row=n"><a>{{n}}</a>
+                                            </li>
+                                        </ul>                                    
+                                    </div>
+                                    <div class="btn-group">
+                                        <button  @click="pagec('reduce')"  type="button" class="btn" :class="{'btn-default':page_d==1,'btn-primary':page_d!=1}" >previous</button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button @click="pagec(page_)" v-for="page_ in page_x"  type="button" class="btn" :class="{'btn-default':page_!=page_d,'btn-primary':page_==page_d}">{{page_}}</button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button  @click="pagec('add')" type="button" class="btn" :class="{'btn-default':page_d==page,'btn-primary':page_d<page}">next</button>
+                                    </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+
+                </section>
+            </div>
+
+
+
+
+
+ <!--玩家冲卡2  -->
+
+        <div id="player_card1" v-if="show" style="height: 1200px" v-cloak>
+            <section id="main-content">
+
+                <!--  -->       <div class="panel panel-default">
+                                <div class="panel-body">
+                                <div class="form-horizontal form-border" id="form">
+<!--                                 <div class="form-group">
+                                        <label class="col-sm-3 control-label">所在地：</label>
+                                        <div class="col-sm-6">
+                                        </div>
+                                    </div> -->                               
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">玩家id：</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" disabled="disabled" class="form-control" name="input1" id="input1" required="" v-model="player.playerId">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">当前可用数量</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" disabled="disabled" class="form-control" name="input1" id="input1" required="" v-model="player.cardNum">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">玩家名字</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" disabled="disabled" class="form-control" name="input1" id="input1" required="" placeholder="" v-model="player.name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">所在地区</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" disabled="disabled" class="form-control" name="input1" id="input1" required="" placeholder="" v-model="player.place">
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">充值数量</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="input1" id="input1" required="" placeholder="大于0整数" v-model="player.buyNum">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                    <div class="btn-group btn-group-justified">
+                                        <div class="btn-group">
+                                            <button type="button" id="but_re" class="btn btn-primary" @click="recharge()">充值</button>
+                                        </div>
+                                        <div class="btn-group">
+                                          
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default" @click="back()">取消</button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                </div>
+                       
+                </section>
+        </div>  
+   <!--玩家冲卡2  -->
+
+
+
+   <!--买卡  -->
+
+    <div id="buy_card" v-if="show" style="height: 1200px" v-cloak>
+            <section id="main-content">
+
+                <!--  -->       <div class="panel panel-default">
+                                <div class="panel-body">
+                                <div class="form-horizontal form-border" id="form">
+<!--                                 <div class="form-group">
+                                        <label class="col-sm-3 control-label">所在地：</label>
+                                        <div class="col-sm-6">
+                                        </div>
+                                    </div> -->
+                               
+                                    <label class="col-sm-3 control-label">商品购买</label>
+
+                                    <div class="form-group" v-for="(list,key) in list">
+                                        <label class="col-sm-3 control-label"></label>
+                                        <div class="col-sm-6" >
+                                            <button type="button" class="btn btn-primary" :class="{'btn-trans':listId!=key,'btn':listId==key}"  @click="listId=key">
+                                            {{list.data}}</button>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">购买方式</label>
+                                        <div class="col-sm-6">
+                                            <button  style="background-size: 35px 35px;background-repeat: no-repeat;padding: 0px" type="button" class="btn btn-primary btn">
+                                            <img style="width: 140px;height: 35px" src="./image/wclogo.png" ></button><br/>
+                                            <button type="button" class="btn btn-primary btn-3d" @click="buy()">
+                                            购买</button>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                </div>
+                                </div>
+
+                </section>
+        </div>
+   <!--买卡  -->
+
+
+
+  <!--奖励详情  -->
+
+        <div id="reward" v-if="show" style="height: 1200px" v-cloak>
+            <section id="main-content">
+
+                <!--  -->
+                <!--  -->       <div class="panel panel-default">
+                                <div class="panel-body">
+                                <div class="form-horizontal form-border" id="form">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">开放时间</label>
+                                        <div class="col-sm-6">
+                                            <input v-model="startTime" type="date" class="form-control" name="input1" id="input1" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">结束时间</label>
+                                        <div class="col-sm-6">
+                                            <input v-model="endTime" type="date" class="form-control" name="input1" id="input1" >
+                                            <button @click="select()" type="button" class="btn btn-primary btn-trans" >查询</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                </div>
+                                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">详情列表</h3>
+                                <div class="actions pull-right">
+                                    <i class="fa fa-chevron-down"></i>
+                                    <i class="fa fa-times"></i>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>获取数量（返卡+活动增卡）</th>
+                                            <th>获取时间</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(row,index1) in row">
+                                            <td>{{index1}}</td>
+                                            <td>{{data[row-1+index].rewardCard}}</td>
+                                            <td>{{data[row-1+index].createTime}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <h5>记录数{{count}}</h5>
+                                <h5>页数{{page_d}}</h5>   
+
+
+                                     <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                            显示{{row}}条
+                                            <span class="caret"></span>
+                                        </button>
+
+
+                                        <ul class="dropdown-menu" @click="pagez()">
+                                            <li v-for="n in rows" @click="row=n"><a>{{n}}</a>
+                                            </li>
+                                        </ul>                                    
+                                    </div>
+                                    <div class="btn-group">
+                                        <button  @click="pagec('reduce')"  type="button" class="btn" :class="{'btn-default':page_d==1,'btn-primary':page_d!=1}" >previous</button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button @click="pagec(page_)" v-for="page_ in page_x"  type="button" class="btn" :class="{'btn-default':page_!=page_d,'btn-primary':page_==page_d}">{{page_}}</button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button  @click="pagec('add')" type="button" class="btn" :class="{'btn-default':page_d==page,'btn-primary':page_d<page}">next</button>
+                                    </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+    </div>
+   <!--奖励详情  -->
+
+
+
+
+  <!--售卡详情  -->
+        <div id="card_sell" v-if="show" style="height: 1200px" v-cloak>   
+            <section id="main-content">
+
+                <!--  -->
+                <!--  -->       <div class="panel panel-default">
+                                <div class="panel-body">
+                                <div class="form-horizontal form-border" id="form">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">开放时间</label>
+                                        <div class="col-sm-6">
+                                            <input v-modle="startTime" v-model="startTime" type="date" class="form-control" name="input1" id="input1" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">结束时间</label>
+                                        <div class="col-sm-6">
+                                            <input v-modle="endTime" v-model="endTime" type="date" class="form-control" name="input1" id="input1" >
+                                       <button @click="select()" type="button" class="btn btn-primary btn-trans" >查询</button>
+                                        </div>
+                                    
+                                    </div>
+                                </div>
+                                </div>
+                                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">售卡列表</h3>
+                                <div class="actions pull-right">
+                                    <i class="fa fa-chevron-down"></i>
+                                    <i class="fa fa-times"></i>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>充卡时间</th>
+                                            <th>玩家id</th>
+                                            <th>昵称</th>
+<!--                                             <th>地区</th> -->
+                                            <th>充卡数量</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(row,index1) in row">
+                                            <th>{{index1}}</th>
+                                            <th>{{data[row-1+index].createTime}}</th>
+                                            <th>{{data[row-1+index].playerId}}</th>
+                                            <th>{{data[row-1+index].name}}</th>
+<!--                                             <th>{{data[row-1+index].place}}</th> -->
+                                            <th>{{data[row-1+index].cardNum}}</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <h5>记录数{{count}}</h5>
+                                <h5>页数{{page_d}}</h5>   
+
+
+                                     <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                            显示{{row}}条
+                                            <span class="caret"></span>
+                                        </button>
+
+
+                                        <ul class="dropdown-menu" @click="pagez()">
+                                            <li v-for="n in rows" @click="row=n"><a>{{n}}</a>
+                                            </li>
+                                        </ul>                                    
+                                    </div>
+                                    <div class="btn-group">
+                                        <button  @click="pagec('reduce')"  type="button" class="btn" :class="{'btn-default':page_d==1,'btn-primary':page_d!=1}" >previous</button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button @click="pagec(page_)" v-for="page_ in page_x"  type="button" class="btn" :class="{'btn-default':page_!=page_d,'btn-primary':page_==page_d}">{{page_}}</button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button  @click="pagec('add')" type="button" class="btn" :class="{'btn-default':page_d==page,'btn-primary':page_d<page}">next</button>
+                                    </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </section>
+    </div>
+   <!--奖励详情  -->
+
+
+
+
+   <!--推广信息  -->
+
+    <div id="extension" v-if="show" style="height: 1200px" v-cloak>  
+            <section id="main-content">
+
+
+                    <div class="panel panel-default">
+                                <div class="panel-body">
+                                <div class="form-horizontal form-border" id="form">
+                                <div class="form-group">
+                                        <label class="col-sm-3 control-label">推广总金额：{{money_t}}</label>
+                                        <div class="col-sm-6">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">推广总返利：{{money_b}}</label>
+                                          
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">已提现{{eMoney}}</label>
+                                          
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">可提现:{{dif}}</label>
+                                          
+                                    </div>
+                                    <div class="form-group">
+                                     
+                                        <div class="col-sm-6">      
+                                                    <button type="button" class="btn btn-info btn-3d" @click=form_alert()>申请提现</button>  
+                                        </div>
+                                          
+                                    </div>
+
+
+
+
+
+
+
+                                </div>
+                                </div>
+                                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">推广列表</h3>
+                                <div class="actions pull-right">
+                                    <i class="fa fa-chevron-down"></i>
+                                    <i class="fa fa-times"></i>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>昵称</th>
+                                            <th>充值金额</th>
+                                            <th>返利比率</th>
+                                            <th>充值返利</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(row,index1) in row">
+                                            <td>{{index1}}</td>
+                                            <td>{{data[row-1+index].name}}</td>
+                                            <td>{{data[row-1+index].tMoney}}</td>
+                                            <td>{{data[row-1+index].proportion}}</td>
+                                            <td>{{data[row-1+index].bMoney}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <h5>记录数{{count}}</h5>
+                                <h5>页数{{page_d}}</h5>   
+
+
+                                     <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                            显示{{row}}条
+                                            <span class="caret"></span>
+                                        </button>
+
+
+                                        <ul class="dropdown-menu" @click="pagez()">
+                                            <li v-for="n in rows" @click="row=n"><a>{{n}}</a>
+                                            </li>
+                                        </ul>                                    
+                                    </div>
+                                    <div class="btn-group">
+                                        <button  @click="pagec('reduce')"  type="button" class="btn" :class="{'btn-default':page_d==1,'btn-primary':page_d!=1}" >previous</button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button @click="pagec(page_)" v-for="page_ in page_x"  type="button" class="btn" :class="{'btn-default':page_!=page_d,'btn-primary':page_==page_d}">{{page_}}</button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button  @click="pagec('add')" type="button" class="btn" :class="{'btn-default':page_d==page,'btn-primary':page_d<page}">next</button>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+   <!--推广信息  -->
+
+
+
+
+
+   <!--我要推广  -->
+
+    <div id="qrcode" v-if="show" style="height: 1200px" v-cloak>  
+            <section id="main-content">
+
+
+                  <div class="panel panel-default">
+                                <div class="panel-body">
+                                <div class="form-horizontal form-border" id="form">
+
+
+                                </div>
+                                        <div class="col-sm-6">
+                                          <div id="addex"></div>
+
+
+
+
+                                        </div>
+                                        
+                                                <h4>长按识别二维码</h4>
+                                </div>
+                                </div>
+
+            
+            </section>
+        </div>
+   <!--我要推广  -->
+
+   <!--客服  -->
+
+    <div id="customer" v-if="show" style="height: 1200px" v-cloak>  
+            <section id="main-content">
+            <h2>关注公众号,人工服务实时在线</h2>
+
+                  <div class="panel panel-default">
+                                <div class="panel-body">
+                                <div class="form-horizontal form-border" id="form">
+
+
+                                </div>
+                                        <div class="col-sm-6">
+                                            <img src="./image/qrcode.jpg">
+
+
+
+
+                                        </div>
+                                            
+                                                <h4>长按识别二维码</h4>
+                                </div>
+                                </div>
+
+            
+            </section>
+        </div>
+   <!--客服  -->
+
+
+
+
+
+
+
+
+
+
+
+      <!--main content end-->
+        <!--sidebar right start-->
+        <aside class="sidebarRight" id="userinfo" v-cloak>
+            <div id="rightside-navigation">
+                <div class="sidebar-heading"><i class="fa fa-user"></i> 我的信息</div>
+                <div class="sidebar-title">online</div>
+                <div class="list-contacts" style="color: #fff;font-size: 15px">
+                                <div class="form-group">
+                                        <label class="col-sm-3 control-label"></label>
+                                        <div class="col-sm-6">用户昵称：{{data.name}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label"></label>
+                                        <div class="col-sm-6">   身份：{{data.job}}                        
+                                        </div>
+                                </div>
+                                <div class="form-group">
+                                        <label class="col-sm-3 control-label"></label>
+                                        <div class="col-sm-6">加入时间：{{data.createTime}}
+                                        </div>
+                                </div>
+                </div>
+
+
+            </div>
+        </aside>
+        <!--sidebar right end-->
+
+  <!-- Basic Modal -->
+    <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">消息框</h4>
+                </div>
+                <div class="modal-body">
+                    <p>{{pop}}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" @click="closeWindow()">关闭</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" @click="closeWindow()">我知道了</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Basic Modal -->
+
+
+    <!-- Form Modal -->
+    <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">提现框</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label"></label>
+                            <div class="col-sm-10">
+                                <input v-model="money" type="number" class="form-control" id="inputEmail3" placeholder="提取返利金额">
+                            </div>
+                        </div>
+                    <p>可提现:{{eMoney}}</p>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" @click="closeWindow()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Form Modal -->
+
+
+
+
+
+
+
+                                        <button id="basic_alert" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#basicModal" style="display: none">
+                                        basic_alert alert
+                                        </button>
+                                        <button id="form_alert" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#formModal" style="display: none">
+                                            Launch form modal
+                                        </button>
+            </section>
+        </section>
+        <!--main content end-->
+        <!--sidebar right start-->
+
+        <!--sidebar right end-->
+    </section>
+    <!--Global JS-->
+    <script src="assets/js/jquery-1.10.2.min.js"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/waypoints/waypoints.min.js"></script>
+    <script src="assets/plugins/nanoScroller/jquery.nanoscroller.min.js"></script>
+    <script type="text/javascript" src="./js/fun.js"></script>
+    <script type="text/javascript" src="./lib/qrcode/qrcode.js"></script>
+
+
+</body>
+
+
+</html>
+<script type="text/javascript">
+$().ready(function(){
+    $.get('./build/manifest.json',{},function(data){
+
+            loadScript("./build/"+data["index.js"],function(){
+                    loadScript('./assets/js/application.js')
+                })      
+      
+    })
+
+
+
+
+
+
+
+
+
+})
+</script>

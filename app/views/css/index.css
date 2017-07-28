@@ -1,0 +1,16 @@
+body{font-size: 50px;padding: 0px;margin: 0px}
+div{padding: 0px;margin: 0px}
+.friendId{height: 45px;width: 200px}
+.table_font{color: #d2e5ec}
+
+.tr1 td{border:1px solid #000;color: #0b2f2d;font-weight: 600;}
+
+.tr2 td{height: 100px;}
+
+.table2{margin: 50px;width: 80%}
+.tr3 td{height: 100px;padding: 0px;margin: 0px}
+.headk{margin: 50px}
+.border{border: 5px solid #000;}
+.hidden(display: none)
+p{font-size: 100px}
+option{font-size: 10px}

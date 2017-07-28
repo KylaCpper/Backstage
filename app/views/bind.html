@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>绑定权限</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- Favicon -->
+    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+    <!-- Fonts from Font Awsome -->
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <!-- CSS Animate -->
+    <link rel="stylesheet" href="assets/css/animate.css?11">
+    <!-- Custom styles for this theme -->
+    <link rel="stylesheet" href="assets/css/main.css">
+
+    <script type="text/javascript" src="./lib/vue.min.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <!-- Fonts -->
+    <!-- <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900,300italic,400italic,600italic,700italic,900italic' rel='stylesheet' type='text/css'>
+   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'> -->
+    <!-- Feature detection -->
+    <script src="assets/js/modernizr-2.6.2.min.js"></script>
+    <script src="./lib/moment.min.js"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<style type="text/css">
+[v-cloak] { display: none }
+</style>
+<body style="background: #fff">
+
+        <section class="main-content-wrapper" >
+            <section id="main-content" v-cloak>
+                <div class="row" id="head" > 
+                    <div class="col-md-12">
+                        <!--breadcrumbs start -->
+                        <ul class="breadcrumb">
+                            <li></li>
+                            <li class="active"></li>
+                        </ul>
+                        <!--breadcrumbs end -->
+                        <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h4>{{pop}}</h4>
+                                        <!-- Button trigger modal -->
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h4>{{id}}</h4>
+                                        <!-- Button trigger modal -->
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h4>{{id1}}</h4>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h4>{{name}}</h4>
+                                    </div>
+                                    <div class="col-md-4" v-if="discount">
+                                        <h4>{{discount}}</h4>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h4>{{proportion}}</h4>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h4>{{proportion_p}}</h4>
+                                    </div>
+                                </div>
+                        </div>
+
+                                        <button @click="href()" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#basicModal">
+                                        进入商家管理后台
+                                        </button>
+                    </div>
+
+
+
+
+
+
+
+                </div>
+            </section>
+        </section>
+
+
+
+
+
+
+
+        
+    <script src="assets/js/jquery-1.10.2.min.js"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/waypoints/waypoints.min.js"></script>
+    <script src="assets/plugins/nanoScroller/jquery.nanoscroller.min.js"></script>
+    <script type="text/javascript" src="./lib/qrcode.min.js"></script>
+    <script type="text/javascript" src="./js/fun.js"></script>
+<!--     <script type="text/javascript" src="./config.js?q19"></script>
+    <script src="./js/function.js?12"></script> -->
+
+
+</body>
+
+</html>
+<script type="text/javascript">
+$().ready(function(){
+    $.get('./build/manifest.json',{},function(data){
+                loadScript("./build/"+data["bind.js"],function(){
+                    loadScript('./assets/js/application.js')
+                })    
+                
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+})
+</script>

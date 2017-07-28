@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<script type="text/javascript" src="./config.js?1111"></script>
+<script type="text/javascript" src="./lib/vue.min.js"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="./lib/jquery.js" type="text/javascript"></script>
+<body>
+
+
+<template>
+  <div>
+      <h2 style="text-align: center">现在是第{{current}}页</h2>
+      <pagination :total="total" :current="current" :callback="changePage"></pagination>
+  </div>
+</template>
+</body>
+</html>
+<script>
+import pagination from './pagination/pagination.vue'
+export default {
+  data () {
+    return {
+      current:1,
+      total:10
+    }
+  },
+  components:{
+    pagination
+  },
+  methods:{
+    changePage:function(page){
+      this.current = page;
+      //分页操作这里
+    }
+  }
+}
+</script>
